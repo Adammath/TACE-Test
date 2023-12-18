@@ -1,16 +1,23 @@
-# This is a sample Python script.
+#TACE Final culminating
+#This game is liverpool jeopardy
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import tkinter as tk
 
+def create_grid(event=None):
+    for i in range(5):
+        for j in range(4):
+            cell = tk.Label(root, text=f'({i},{j})', borderwidth=1, relief="solid", width=10, height=3)
+            cell.grid(row=i, column=j)
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+# Create the main window
+root = tk.Tk()
+root.title("5x4 Grid")
 
+# Bind the window resizing event to recreate the grid
+root.bind("<Configure>", create_grid)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('Mathew')
+# Initial creation of the grid
+create_grid()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+# Run the Tkinter event loop
+root.mainloop()
