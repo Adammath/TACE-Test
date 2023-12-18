@@ -4,6 +4,7 @@
 import tkinter as tk
 
 def create_grid(event=None):
+    print("Ethan")
     for i in range(5):
         for j in range(4):
             cell = tk.Label(root, text=f'({i},{j})', borderwidth=1, relief="solid", width=10, height=3)
