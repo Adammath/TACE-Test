@@ -1,6 +1,12 @@
 #TACE Final culminating
 #This game is liverpool jeopardy
 
+class board:
+    def __init__(self):
+        self.image = pygame.image.load("Liverpool Jeopardy.jpg")
+        self.image = pygame.transform.scale(self.image, self.size)
+
+
 import tkinter as tk
 
 def create_grid(event=None):
@@ -16,7 +22,7 @@ root.title("5x4 Grid")
 
 # Bind the window resizing event to recreate the grid
 root.bind("<Configure>", create_grid)
-
+    win.blit("Liverpooldy.jpg")
 # Initial creation of the grid
 create_grid()
 
