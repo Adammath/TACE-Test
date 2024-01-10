@@ -12,7 +12,8 @@ Boxinfo = [[20, 300, "CP1.png"], [20,450,"CP2.png"],[20,580,"CP3.png"],[20,700,"
 [300,300,"CP1.png"],[300,450,"CP2.png"],[300,580,"CP3.png"],[300,700,"CP4.png"],[300,820,"CP5.png"],
 [600,300,"CP1.png"],[600,450,"CP2.png"],[600,580,"CP3.png"],[600,700,"CP4.png"],[600,820,"CP5.png"],
 [870,300,"CP1.png"],[870,450,"CP2.png"],[870,580,"CP3.png"],[870,700,"CP4.png"],[870,820,"CP5.png"]]
-
+white = (255,255,255)
+rect_size = 20
 class BOX:
     def __init__(self, x,y,filename):
         self.x = x
@@ -22,6 +23,12 @@ class BOX:
         self.image = pygame.transform.scale(self.image, self.size)
         self.rect = self.image.get_rect()
         self.rect = self.rect.move(self.x, self.y)
+
+    def checkCollision(self, sprite1):
+        col=self.rect.colliderect(sprite1)
+        if col == True:
+
+            return True
 
 
 
@@ -46,8 +53,8 @@ for i in range(len(Boxinfo)):
 
 while True:
 
-    mouse_pos=pygame.mouse.get_pos
-    mouseRect=pygame.draw.rect(Window,white,[mouse_pos[0],mouse_[1],rect_size, rect_size])
+    mouse_pos=pygame.mouse.get_pos()
+    mouseRect=pygame.draw.rect(win,white,[mouse_pos[0],mouse_pos[1],rect_size, rect_size])
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -57,20 +64,23 @@ while True:
 
     win.blit(Background, BackgroundRect)
     for i in range(len(Board)):
+        if pygame.mouse.get_pressed()[0]:
+            if Board[i].checkCollision(mouseRect):
+                filename= "C1.txt"
+
+                file = open(filename,"r")
+                text = file.read()
+
+                for line in text:
+                    for letter in line:
+                        print(letter)
+
+                file.close()
         win.blit(Board[i].image, Board[i].rect)
+
+
  #   win.blit(Box1.image, Box1.rect)
     pygame.display.update()
 
- def checkCollision(self, mouseRect):
-    col=self.rect.colliderect(sprite1.rect)
-    if col == True:
-        files= input()
 
-        file = open(files, "r")
-        text = file.read()
 
-        for line in text:
-            for letter in line:
-                print(letter)
-
-        file.close()
