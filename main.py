@@ -6,6 +6,7 @@
 
 import pygame
 import sys
+import random
 
 Boxinfo2 = [[20, 330, "CP1.png"]]
 Boxinfo = [[20, 300, "CP1.png"], [20,450,"CP2.png"],[20,580,"CP3.png"],[20,700,"CP4.png"],[20,820,"CP5.png"],
@@ -31,10 +32,41 @@ class BOX:
             return True
 
 
+def readQuestions():
+    questions = []
+
+    with open("C1.txt") as file:
+        questions = [line.rstrip("\n") for line in file]
+
+    # remove empty lines
+
+    questions = [x for x in questions if x != '']
+
+    file.close()
+
+    return(questions[(random.randint(0, len(questions) - 1))])
+
+
+def displayQuestion(win, question):
+    text = font.render('C1.txt', True, green, blue)
+    textRect = text.get_rect()
+    textRect.center = (textX // 2, textY // 2)
+    while True:
+        win.fill(white)
+        win.blit(text, textRect)
+        pygame.display.update()
 
 #main
+pygame.init()
 win = pygame.display.set_mode((1100, 900))
 size=(1100,900)
+white = (255, 255, 255)
+green = (0, 255, 0)
+blue = (0, 0, 128)
+textX = 400
+textY = 400
+font = pygame.font.Font('freesansbold.ttf', 32)
+
 
 Background = pygame.image.load("Background.jpg")
 Background = pygame.transform.scale(Background,size)
@@ -50,8 +82,9 @@ for i in range(len(Boxinfo)):
     Board.append  (newBox)
 
 #Box1 = BOX(10, 50, "CP1.PNG")
+chosen=False
 
-while True:
+while chosen== False:
 
     mouse_pos=pygame.mouse.get_pos()
     mouseRect=pygame.draw.rect(win,white,[mouse_pos[0],mouse_pos[1],rect_size, rect_size])
@@ -66,21 +99,16 @@ while True:
     for i in range(len(Board)):
         if pygame.mouse.get_pressed()[0]:
             if Board[i].checkCollision(mouseRect):
-                filename= "C1.txt"
+                chosen=True
 
-                file = open(filename,"r")
-                text = file.read()
+                question = readQuestions()
+                displayQuestion(win,question)
 
-                for line in text:
-                    for letter in line:
-                        print(letter)
 
-                file.close()
         win.blit(Board[i].image, Board[i].rect)
 
 
  #   win.blit(Box1.image, Box1.rect)
     pygame.display.update()
-
 
 
