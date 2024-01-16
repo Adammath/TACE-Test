@@ -48,13 +48,17 @@ def readQuestions():
 
 
 def displayQuestion(win, question):
-    text = font.render('C1.txt', True, green, blue)
+    text = font.render(question, True, green, blue)
     textRect = text.get_rect()
     textRect.center = (textX // 2, textY // 2)
     while True:
         win.fill(white)
         win.blit(text, textRect)
         pygame.display.update()
+index=[]
+def identify(win, Boxinfo):
+    Boxinfo.index(index)
+
 
 #main
 pygame.init()
