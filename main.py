@@ -8,6 +8,7 @@ import pygame
 import sys
 import random
 
+
 Boxinfo2 = [[20, 330, "CP1.png"]]
 Boxinfo = [[20, 300, "CP1.png"], [20,450,"CP2.png"],[20,580,"CP3.png"],[20,700,"CP4.png"],[20,820,"CP5.png"],
 [300,300,"CP1.png"],[300,450,"CP2.png"],[300,580,"CP3.png"],[300,700,"CP4.png"],[300,820,"CP5.png"],
@@ -30,6 +31,26 @@ class BOX:
         if col == True:
 
             return True
+class TextBox:
+    def __init__(self, x, y, width, height, font_size=32):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = ""
+        self.font = pygame.font.Font(None, font_size)
+        self.color = black
+        self.active = False
+
+    def checkCollision(self, sprite1):
+        col = self.rect.colliderect(sprite1)
+        if col == BOX:
+            self.active= True
+            TextBox.render(500,400)
+        else:
+            self.active=False
+            return True
+
+
+
+
 
 
 def readQuestions():
@@ -58,7 +79,14 @@ def displayQuestion(win, question):
 index=[]
 def identify(win, Boxinfo):
     Boxinfo.index(index)
+    Answer = font.render(question, True, green, blue)
+    AnswerRect = Answer.get_rect()
+    AnswerRect.center = (textX // 2, textY // 2)
 
+    while True:
+        win.fill(white)
+        win.blit(Answer, AnswerRect)
+        pygame.display.update()
 
 #main
 pygame.init()
@@ -67,6 +95,7 @@ size=(1100,900)
 white = (255, 255, 255)
 green = (0, 255, 0)
 blue = (0, 0, 128)
+black = (0, 0, 0)
 textX = 400
 textY = 400
 font = pygame.font.Font('freesansbold.ttf', 32)
