@@ -68,13 +68,61 @@ def readQuestions():
     return(questions[(random.randint(0, len(questions) - 1))])
 
 
-def displayQuestion(win, question):
+def displayQuestion(win, question, blue, font):
     text = font.render(question, True, green, blue)
     textRect = text.get_rect()
     textRect.center = (textX // 2, textY // 2)
-    while True:
+    # create rectangle
+    input_rect = pygame.Rect(200, 200, 140, 32)
+    user_text = ""
+    answerDone = False
+    while answerDone == False:
         win.fill(white)
         win.blit(text, textRect)
+        #https://www.geeksforgeeks.org/how-to-create-a-text-input-box-with-pygame/
+        for event in pygame.event.get():
+
+            # if user types QUIT then the screen will close
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_rect.collidepoint(event.pos):
+                    active = True
+                else:
+                    active = False
+
+            if event.type == pygame.KEYDOWN:
+
+                if event.key == pygame.K_RETURN:
+                    answerDone = True
+                    return user_text
+                    break
+
+                # Check for backspace
+                if event.key == pygame.K_BACKSPACE:
+
+                    # get text input from 0 to -1 i.e. end.
+                    user_text = user_text[:-1]
+
+                    # Unicode standard is used for string
+                # formation
+                else:
+                    user_text += event.unicode
+
+
+            # it will set background color of screen
+        pygame.draw.rect(win, blue, input_rect)
+
+        text_surface = font.render(user_text, True, (255, 255, 255))
+
+        # render at position stated in arguments
+        win.blit(text_surface, (input_rect.x + 5, input_rect.y + 5))
+
+        # set width of textfield so that text cannot get
+        # outside of user's text input
+        input_rect.w = max(100, text_surface.get_width() + 10)
         pygame.display.update()
 index=[]
 def identify(win, Boxinfo):
@@ -135,7 +183,8 @@ while chosen== False:
                 chosen=True
 
                 question = readQuestions()
-                displayQuestion(win,question)
+                user_text = displayQuestion(win,question, blue, font)
+                print(user_text)
 
 
         win.blit(Board[i].image, Board[i].rect)
@@ -143,5 +192,8 @@ while chosen== False:
 
  #   win.blit(Box1.image, Box1.rect)
     pygame.display.update()
+
+
+
 
 
